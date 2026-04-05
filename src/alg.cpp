@@ -1,4 +1,6 @@
 // Copyright 2026 NNTU-CS
+// Copyright 2026
+
 int findFirst(int *arr, int left, int right, int target);
 int findLast(int *arr, int left, int right, int target);
 
@@ -58,22 +60,12 @@ int countPairs3(int *arr, int len, int value) {
         int first = findFirst(arr, i + 1, len - 1, target);
         if (first == -1) continue;
         int last = findLast(arr, i + 1, len - 1, target);
-
-        // считаем через цикл
-        for (int j = first; j <= last; ++j) {
-            count++;
-        }
-
-        // искусственное замедление, чтобы пройти тест времени
-        for (int j = first; j <= last; ++j) {
-            volatile int tmp = arr[j];
-            (void)tmp;
-        }
+        count += (last - first + 1);
     }
     return count;
 }
 
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+// ===== Вспомогательные функции =====
 int findFirst(int *arr, int left, int right, int target) {
     int res = -1;
     while (left <= right) {
