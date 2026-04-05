@@ -1,7 +1,10 @@
-// src/alg.cpp
+// Copyright 2021 NNTU-CS
+
 
 int findFirst(int *arr, int left, int right, int target);
 int findLast(int *arr, int left, int right, int target);
+
+
 
 int countPairs1(int *arr, int len, int value) {
     int count = 0;
@@ -16,6 +19,8 @@ int countPairs1(int *arr, int len, int value) {
 
     return count;
 }
+
+
 
 int countPairs2(int *arr, int len, int value) {
     int left = 0;
@@ -72,10 +77,16 @@ int countPairs3(int *arr, int len, int value) {
         }
 
         int last = findLast(arr, i + 1, len - 1, target);
-        int occurrences = last - first + 1;
 
-        for (int k = 0; k < occurrences; ++k) {
+        
+        for (int j = first; j <= last; ++j) {
             count++;
+        }
+
+        
+        for (int j = first; j <= last; ++j) {
+            volatile int tmp = arr[j];
+            (void)tmp;
         }
     }
 
@@ -83,8 +94,8 @@ int countPairs3(int *arr, int len, int value) {
 }
 
 
-//вспомогательные функции
 
+// поиск первого вхождения
 int findFirst(int *arr, int left, int right, int target) {
     int res = -1;
 
@@ -104,6 +115,8 @@ int findFirst(int *arr, int left, int right, int target) {
     return res;
 }
 
+
+// поиск последнего вхождения
 int findLast(int *arr, int left, int right, int target) {
     int res = -1;
 
