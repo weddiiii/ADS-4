@@ -1,4 +1,5 @@
-// Copyright 2021 NNTU-CS
+// Copyright 2026 NNTU-CS
+
 int findFirst(int *arr, int left, int right, int target);
 int findLast(int *arr, int left, int right, int target);
 
@@ -48,7 +49,6 @@ int countPairs2(int *arr, int len, int value) {
     return count;
 }
 
-
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len; ++i) {
@@ -61,7 +61,6 @@ int countPairs3(int *arr, int len, int value) {
         for (int j = first; j <= last; ++j) {
             count++;
         }
-        
         for (int j = first; j <= last; ++j) {
             volatile int tmp = arr[j];
             (void)tmp;
