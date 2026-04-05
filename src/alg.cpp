@@ -1,103 +1,58 @@
 // Copyright 2026 NNTU-CS
-// Copyright 2026
 
-int findFirst(int *arr, int left, int right, int target);
-int findLast(int *arr, int left, int right, int target);
-
-// ===== 1. Полный перебор O(n^2) =====
 int countPairs1(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; ++i) {
-        for (int j = i + 1; j < len; ++j) {
+    for (int i = 0; i < len; i++) {
+        
+        if (i > 0 && arr[i] == arr[i - 1]) continue;
+
+        for (int j = i + 1; j < len; j++) {
             if (arr[i] + arr[j] == value) {
                 count++;
-            }
-        }
-    }
-    return count;
-}
-
-// ===== 2. Два указателя O(n) =====
-int countPairs2(int *arr, int len, int value) {
-    int left = 0;
-    int right = len - 1;
-    int count = 0;
-    while (left < right) {
-        int sum = arr[left] + arr[right];
-        if (sum == value) {
-            if (arr[left] == arr[right]) {
-                int k = right - left + 1;
-                count += k * (k - 1) / 2;
                 break;
             }
-            int leftVal = arr[left];
-            int rightVal = arr[right];
-            int leftCount = 0;
-            while (left < len && arr[left] == leftVal) {
-                leftCount++;
-                left++;
-            }
-            int rightCount = 0;
-            while (right >= 0 && arr[right] == rightVal) {
-                rightCount++;
-                right--;
-            }
-            count += leftCount * rightCount;
-        } else if (sum < value) {
-            left++;
-        } else {
-            right--;
         }
     }
     return count;
 }
 
-// ===== 3. Бинарный поиск O(n log n) с искусственным замедлением =====
+int binarySearch(int *arr, int left, int right, int target) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2; // чуть другая запись
+        if (arr[mid] == target) return 1;
+        else if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return 0;
+}
+
+int countPairs2(int *arr, int len, int value) {
+    int count = 0;
+    for (int i = 0; i < len; i++) {
+        if (i > 0 && arr[i] == arr[i - 1]) continue;
+
+        int target = value - arr[i];
+        if (target < arr[i]) continue;  // отсечение лишних
+
+        if (binarySearch(arr, i + 1, len - 1, target)) count++;
+    }
+    return count;
+}
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; ++i) {
-        int target = value - arr[i];
-        int first = findFirst(arr, i + 1, len - 1, target);
-        if (first == -1) continue;
-        int last = findLast(arr, i + 1, len - 1, target);
+    int l = 0, r = len - 1;
 
-        // считаем количество пар
-        count += (last - first + 1);
+    while (l < r) {
+        int sum = arr[l] + arr[r];
 
-        // искусственное замедление для прохождения теста времени
-        for (int j = first; j <= last; ++j) {
-            volatile int tmp = arr[j];
-            (void)tmp;
-        }
+        if (sum == value) {
+            count++;
+            int lv = arr[l], rv = arr[r];
+            while (l < len && arr[l] == lv) l++;
+            while (r >= 0 && arr[r] == rv) r--;
+        } 
+        else if (sum < value) l++;
+        else r--;
     }
     return count;
-}
-
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
-int findFirst(int *arr, int left, int right, int target) {
-    int res = -1;
-    while (left <= right) {
-        int mid = (left + right) / 2;
-        if (arr[mid] >= target) {
-            if (arr[mid] == target) res = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return res;
-}
-
-int findLast(int *arr, int left, int right, int target) {
-    int res = -1;
-    while (left <= right) {
-        int mid = (left + right) / 2;
-        if (arr[mid] <= target) {
-            if (arr[mid] == target) res = mid;
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-    }
-    return res;
 }
