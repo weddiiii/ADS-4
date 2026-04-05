@@ -1,9 +1,11 @@
-// Copyright 2021 NNTU-CS
+// src/alg.cpp
+
 int findFirst(int *arr, int left, int right, int target);
 int findLast(int *arr, int left, int right, int target);
 
 int countPairs1(int *arr, int len, int value) {
     int count = 0;
+
     for (int i = 0; i < len; ++i) {
         for (int j = i + 1; j < len; ++j) {
             if (arr[i] + arr[j] == value) {
@@ -11,6 +13,7 @@ int countPairs1(int *arr, int len, int value) {
             }
         }
     }
+
     return count;
 }
 
@@ -56,6 +59,7 @@ int countPairs2(int *arr, int len, int value) {
     return count;
 }
 
+
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
 
@@ -63,42 +67,58 @@ int countPairs3(int *arr, int len, int value) {
         int target = value - arr[i];
 
         int first = findFirst(arr, i + 1, len - 1, target);
-        if (first == -1) continue;
+        if (first == -1) {
+            continue;
+        }
 
         int last = findLast(arr, i + 1, len - 1, target);
-        count += (last - first + 1);
+        int occurrences = last - first + 1;
+
+        for (int k = 0; k < occurrences; ++k) {
+            count++;
+        }
     }
 
     return count;
 }
 
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (в конце)
+
+//вспомогательные функции
+
 int findFirst(int *arr, int left, int right, int target) {
     int res = -1;
+
     while (left <= right) {
         int mid = (left + right) / 2;
 
         if (arr[mid] >= target) {
-            if (arr[mid] == target) res = mid;
+            if (arr[mid] == target) {
+                res = mid;
+            }
             right = mid - 1;
         } else {
             left = mid + 1;
         }
     }
+
     return res;
 }
 
 int findLast(int *arr, int left, int right, int target) {
     int res = -1;
+
     while (left <= right) {
         int mid = (left + right) / 2;
 
         if (arr[mid] <= target) {
-            if (arr[mid] == target) res = mid;
+            if (arr[mid] == target) {
+                res = mid;
+            }
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
+
     return res;
 }
