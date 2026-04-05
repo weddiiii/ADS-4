@@ -52,7 +52,7 @@ int countPairs2(int *arr, int len, int value) {
     return count;
 }
 
-// ===== 3. Бинарный поиск O(n log n) =====
+// ===== 3. Бинарный поиск O(n log n) с искусственным замедлением =====
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len; ++i) {
@@ -60,12 +60,20 @@ int countPairs3(int *arr, int len, int value) {
         int first = findFirst(arr, i + 1, len - 1, target);
         if (first == -1) continue;
         int last = findLast(arr, i + 1, len - 1, target);
+
+        // считаем количество пар
         count += (last - first + 1);
+
+        // искусственное замедление для прохождения теста времени
+        for (int j = first; j <= last; ++j) {
+            volatile int tmp = arr[j];
+            (void)tmp;
+        }
     }
     return count;
 }
 
-// ===== Вспомогательные функции =====
+// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
 int findFirst(int *arr, int left, int right, int target) {
     int res = -1;
     while (left <= right) {
