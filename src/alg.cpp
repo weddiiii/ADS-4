@@ -3,7 +3,7 @@ int findFirst(int *arr, int left, int right, int target);
 int findLast(int *arr, int left, int right, int target);
 
 int countPairs1(int *arr, int len, int value) {
-  int count = 0;
+    int count = 0;
     for (int i = 0; i < len; ++i) {
         for (int j = i + 1; j < len; ++j) {
             if (arr[i] + arr[j] == value) {
@@ -13,8 +13,9 @@ int countPairs1(int *arr, int len, int value) {
     }
     return count;
 }
+
 int countPairs2(int *arr, int len, int value) {
-   int left = 0;
+    int left = 0;
     int right = len - 1;
     int count = 0;
 
@@ -56,7 +57,7 @@ int countPairs2(int *arr, int len, int value) {
 }
 
 int countPairs3(int *arr, int len, int value) {
-  int count = 0;
+    int count = 0;
 
     for (int i = 0; i < len; ++i) {
         int target = value - arr[i];
@@ -70,7 +71,8 @@ int countPairs3(int *arr, int len, int value) {
 
     return count;
 }
-//вспомогательная функция
+
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (в конце)
 int findFirst(int *arr, int left, int right, int target) {
     int res = -1;
     while (left <= right) {
